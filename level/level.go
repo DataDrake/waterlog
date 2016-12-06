@@ -14,9 +14,7 @@
 // limitations under the License.
 //
 
-package waterlog
-
-type Level uint8
+package level
 
 const (
 	DISABLE = uint8(0)

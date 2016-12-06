@@ -17,6 +17,7 @@
 package waterlog
 
 import (
+    "github.com/DataDrake/waterlog/level"
     "io"
     "time"
 )
@@ -29,7 +30,7 @@ type WaterLog struct {
 }
 
 func New(out io.Writer, prefix string, flag int) *WaterLog {
-	return &WaterLog{flag, FATAL, prefix, out}
+	return &WaterLog{flag, level.FATAL, prefix, out}
 }
 
 func (w *WaterLog) Flags() int {
