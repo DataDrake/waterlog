@@ -17,21 +17,21 @@
 package main
 
 import (
-    "github.com/DataDrake/waterlog"
-    "github.com/DataDrake/waterlog/level"
-    "log"
-    "os"
+	"github.com/DataDrake/waterlog"
+	"github.com/DataDrake/waterlog/level"
+	"log"
+	"os"
 )
 
-func main(){
-    w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC )
-    w.SetLevel(level.DEBUG)
-    w.Debugln("This is a DEBUG")
-    w.Errorln("This is an ERROR")
-    w.Fatalln("This is a FATAL")
-    w.Goodln("This is a GOOD")
-    w.Infoln("This is an INFO")
-    w.Panicln("This is a PANIC")
-    w.Println("This is a PRINT")
-    w.Warnln("This is a WARNING")
+func main() {
+	w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC)
+	w.SetLevel(level.DEBUG)
+	w.Debugln("This is a DEBUG")
+	w.Errorln("This is an ERROR")
+	w.Fatalln("This is a FATAL")
+	w.Goodln("This is a GOOD")
+	w.Infoln("This is an INFO")
+	w.Panicln("This is a PANIC")
+	w.Println("This is a PRINT")
+	w.Warnln("This is a WARNING")
 }

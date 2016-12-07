@@ -26,4 +26,3 @@ const (
 	INFO    = uint8(6)
 	DEBUG   = uint8(7)
 )
-
