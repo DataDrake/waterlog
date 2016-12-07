@@ -43,15 +43,15 @@ func (w *WaterLog) eprintln(s format.Style, v ...interface{}) {
 }
 
 func (w *WaterLog) Error(v ...interface{}) {
-	w.eprint(format.ERROR, v...)
+	w.eprint(format.Error, v...)
 }
 
 func (w *WaterLog) Errorf(f string, v ...interface{}) {
-	w.eprintf(format.ERROR, f, v...)
+	w.eprintf(format.Error, f, v...)
 }
 
 func (w *WaterLog) Errorln(v ...interface{}) {
-	w.eprintln(format.ERROR, v...)
+	w.eprintln(format.Error, v...)
 }
 
 func (w *WaterLog) Debug(v ...interface{}) {
@@ -67,39 +67,39 @@ func (w *WaterLog) Debugln(v ...interface{}) {
 }
 
 func (w *WaterLog) Fatal(v ...interface{}) {
-	w.eprint(format.FATAL, v...)
+	w.eprint(format.Fatal, v...)
 }
 
 func (w *WaterLog) Fatalf(f string, v ...interface{}) {
-	w.eprintf(format.FATAL, f, v...)
+	w.eprintf(format.Fatal, f, v...)
 }
 
 func (w *WaterLog) Fatalln(v ...interface{}) {
-	w.eprintln(format.FATAL, v...)
+	w.eprintln(format.Fatal, v...)
 }
 
 func (w *WaterLog) Good(v ...interface{}) {
-	w.eprint(format.GOOD, v...)
+	w.eprint(format.Good, v...)
 }
 
 func (w *WaterLog) Goodf(f string, v ...interface{}) {
-	w.eprintf(format.GOOD, f, v...)
+	w.eprintf(format.Good, f, v...)
 }
 
 func (w *WaterLog) Goodln(v ...interface{}) {
-	w.eprintln(format.GOOD, v...)
+	w.eprintln(format.Good, v...)
 }
 
 func (w *WaterLog) Info(v ...interface{}) {
-	w.eprint(format.INFO, v...)
+	w.eprint(format.Info, v...)
 }
 
 func (w *WaterLog) Infof(f string, v ...interface{}) {
-	w.eprintf(format.INFO, f, v...)
+	w.eprintf(format.Info, f, v...)
 }
 
 func (w *WaterLog) Infoln(v ...interface{}) {
-	w.eprintln(format.INFO, v...)
+	w.eprintln(format.Info, v...)
 }
 
 func (w *WaterLog) Output(calldepth int, s string) error {
@@ -107,15 +107,15 @@ func (w *WaterLog) Output(calldepth int, s string) error {
 }
 
 func (w *WaterLog) Panic(v ...interface{}) {
-	w.eprint(format.ERROR, v...)
+	w.eprint(format.Panic, v...)
 }
 
 func (w *WaterLog) Panicf(f string, v ...interface{}) {
-	w.eprintf(format.PANIC, f, v...)
+	w.eprintf(format.Panic, f, v...)
 }
 
 func (w *WaterLog) Panicln(v ...interface{}) {
-	w.eprintln(format.PANIC, v...)
+	w.eprintln(format.Panic, v...)
 }
 
 func (w *WaterLog) Print(v ...interface{}) {
@@ -130,13 +130,13 @@ func (w *WaterLog) Println(v ...interface{}) {
 }
 
 func (w *WaterLog) Warn(v ...interface{}) {
-	w.eprint(format.WARN, v...)
+	w.eprint(format.Warn, v...)
 }
 
 func (w *WaterLog) Warnf(f string, v ...interface{}) {
-	w.eprintf(format.WARN, f, v...)
+	w.eprintf(format.Warn, f, v...)
 }
 
 func (w *WaterLog) Warnln(v ...interface{}) {
-	w.eprintln(format.WARN, v...)
+	w.eprintln(format.Warn, v...)
 }

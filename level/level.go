@@ -17,12 +17,12 @@
 package level
 
 const (
-	DISABLE = uint8(0)
-	PANIC   = uint8(1)
-	FATAL   = uint8(2)
-	ERROR   = uint8(3)
-	WARN    = uint8(4)
-	GOOD    = uint8(5)
-	INFO    = uint8(6)
-	DEBUG   = uint8(7)
+	Disable = uint8(0)
+	Panic   = uint8(1)
+	Fatal   = uint8(2)
+	Error   = uint8(3)
+	Warn    = uint8(4)
+	Good    = uint8(5)
+	Info    = uint8(6)
+	Debug   = uint8(7)
 )
