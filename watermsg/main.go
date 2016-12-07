@@ -19,11 +19,12 @@ package main
 import (
     "github.com/DataDrake/waterlog"
     "github.com/DataDrake/waterlog/level"
+    "log"
     "os"
 )
 
 func main(){
-    w := waterlog.New(os.Stdout, "", 0)
+    w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC )
     w.SetLevel(level.DEBUG)
     w.Debugln("This is a DEBUG")
     w.Errorln("This is an ERROR")

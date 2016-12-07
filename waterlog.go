@@ -19,6 +19,7 @@ package waterlog
 import (
     "github.com/DataDrake/waterlog/level"
     "io"
+    "log"
     "time"
 )
 
@@ -62,5 +63,24 @@ func (w *WaterLog) SetPrefix(prefix string) {
 }
 
 func (w *WaterLog) Time() string {
-    return time.Now().Format("15:04:05")
+    layout := ""
+    prev := false
+    if w.flag & log.Ldate == log.Ldate {
+        layout += "2006-01-02"
+        prev = true
+    }
+    if w.flag & log.Ltime == log.Ltime {
+        if prev {
+            layout += " "
+        }
+        layout += "15:04:05"
+        if w.flag & log.Lmicroseconds == log.Lmicroseconds {
+            layout += ".000000"
+        }
+    }
+    t := time.Now()
+    if w.flag & log.LUTC == log.LUTC {
+        t = t.UTC()
+    }
+    return t.Format(layout)
 }

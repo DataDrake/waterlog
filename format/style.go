@@ -25,18 +25,20 @@ type Style struct {
 }
 
 const (
-	BAD_FMT   = "\033[30;48;5;160m ✗ \033[7m %s \033[27m %-7s \033[49;38;5;160m %v\033[0m"
-	DEBUG_FMT = "\033[30;48;5;087m ✚ \033[7m %s \033[27m %-7s \033[49;38;5;087m %v\033[0m"
+	DEBUG_FMT = "\033[30;48;5;099m ✚ \033[7m %s \033[27m %-7s \033[49;38;5;99m %v\033[0m"
+	ERROR_FMT = "\033[30;48;5;208m ✗ \033[7m %s \033[27m %-7s \033[49;38;5;208m %v\033[0m"
+	FATAL_FMT = "\033[30;48;5;160m 🕱 \033[7m %s \033[27m %-7s \033[49;38;5;160m %v\033[0m"
 	GOOD_FMT  = "\033[30;48;5;040m 🗸 \033[7m %s \033[27m %-7s \033[49;38;5;040m %v\033[0m"
-	INFO_FMT  = "\033[30;48;5;063m ⮞ \033[7m %s \033[27m %-7s \033[49;38;5;063m %v\033[0m"
-	WARN_FMT  = "\033[30;48;5;172m 🗲 \033[7m %s \033[27m %-7s \033[49;38;5;172m %v\033[0m"
+	INFO_FMT  = "\033[30;48;5;004m ⮞ \033[7m %s \033[27m %-7s \033[49;38;5;004m %v\033[0m"
+	PANIC_FMT = "\033[30;48;5;200m 😮 \033[7m %s \033[27m %-7s \033[49;38;5;200m %v\033[0m"
+	WARN_FMT  = "\033[30;48;5;220m 🗲 \033[7m %s \033[27m %-7s \033[49;38;5;220m %v\033[0m"
 )
 
 
 var DEBUG = Style{level.DEBUG,"DEBUG",DEBUG_FMT}
-var ERROR = Style{level.ERROR,"ERROR",BAD_FMT}
-var FATAL = Style{level.FATAL,"FATAL",BAD_FMT}
+var ERROR = Style{level.ERROR,"ERROR",ERROR_FMT}
+var FATAL = Style{level.FATAL,"FATAL",FATAL_FMT}
 var GOOD  = Style{level.GOOD, "GOOD" ,GOOD_FMT}
 var INFO  = Style{level.INFO, "INFO", INFO_FMT}
-var PANIC = Style{level.ERROR,"PANIC",BAD_FMT}
+var PANIC = Style{level.ERROR,"PANIC",PANIC_FMT}
 var WARN  = Style{level.ERROR,"WARNING",WARN_FMT}
