@@ -20,48 +20,60 @@ import (
 	"github.com/DataDrake/waterlog/level"
 	"io"
 	"log"
+	"sync"
 	"time"
 )
 
+// WaterLog is a styled log.Logger
 type WaterLog struct {
 	flag   int
 	level  uint8
+	mu     sync.Mutex
 	prefix string
 	output io.Writer
 }
 
+// New creates a WaterLog
 func New(out io.Writer, prefix string, flag int) *WaterLog {
-	return &WaterLog{flag, level.Fatal, prefix, out}
+	return &WaterLog{flag, level.Fatal, sync.Mutex{}, prefix, out}
 }
 
+// Flags returns the output flags
 func (w *WaterLog) Flags() int {
 	return w.flag
 }
 
+// SetFlags replaces the output flags
 func (w *WaterLog) SetFlags(flag int) {
 	w.flag = flag
 }
 
+// Level returns the logging level
 func (w *WaterLog) Level() uint8 {
 	return w.level
 }
 
+// SetLevel changes the logging level
 func (w *WaterLog) SetLevel(level uint8) {
 	w.level = level
 }
 
+// SetOutput replaces the internal io.Writer
 func (w *WaterLog) SetOutput(output io.Writer) {
 	w.output = output
 }
 
+// Prefix returns the output prefix (UNUSED)
 func (w *WaterLog) Prefix() string {
 	return w.prefix
 }
 
+// SetPrefix replaces the output prefix (UNUSED)
 func (w *WaterLog) SetPrefix(prefix string) {
 	w.prefix = prefix
 }
 
+// Time returns a formatted Timestamp for logging
 func (w *WaterLog) Time() string {
 	layout := ""
 	prev := false

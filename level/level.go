@@ -17,12 +17,20 @@
 package level
 
 const (
+	// Disable turns off logging
 	Disable = uint8(0)
-	Panic   = uint8(1)
-	Fatal   = uint8(2)
-	Error   = uint8(3)
-	Warn    = uint8(4)
-	Good    = uint8(5)
-	Info    = uint8(6)
-	Debug   = uint8(7)
+	// Panic allows: Panic
+	Panic = uint8(1)
+	// Fatal allows: Panic, Fatal
+	Fatal = uint8(2)
+	// Error allows: Panic, Fatal, Error
+	Error = uint8(3)
+	// Warn allows: Panic, Fatal, Error, Warn
+	Warn = uint8(4)
+	// Good allows: Panic, Fatal, Error, Warn, Good
+	Good = uint8(5)
+	// Info allows: Panic, Fatal, Error, Warn, Good, Info
+	Info = uint8(6)
+	// Debug allows: Panic, Fatal, Error, Warn, Good, Info, Debug
+	Debug = uint8(7)
 )
