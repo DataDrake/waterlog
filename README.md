@@ -19,6 +19,42 @@ in Go which is able to be used as a drop-in replacement for the Go
 ```log.Logger```. The second is a set of Makefile definitions that
 provide similar styling for GNU Make project.
 
+### Message Types
+The traditional ```log.Logger``` implementation only provides three
+different message types:
+
+Type  | Behavior
+----- | --------
+Fatal | Log message and ```os.Exit(1)```
+Panic | Log message and ```panic()```
+Print | Log message
+
+For each level it also supports a Print, Printf, and Println variant
+of the output.
+
+Waterlog, on the other hand, provides a total of 8 message types.
+These levels also support Print, Printf, and Println output modes.
+Unlike ```log.Logger```, Waterlog supports logging levels which
+correspond with these message types. Higher levels allow more types
+of message to be shown. The logging level may be changed at any time
+by the ```SetLevel()``` method. The psuedo-type ```Disable``` is also
+provided to allow quiet operation. A default level of ```Fatal``` is
+assigned to new Waterlog instances. Lastly, Print messages are always
+written as unformatted text with no timestamp and ignore the logging
+level.
+
+Type    | Behavior                                         | Level
+------- | ------------------------------------------------ | -----
+Disable | No messages                                      | 0
+Panic   | Runtime "exception" message and ```panic()```    | 1
+Fatal   | Unrecoverable error message and ```os.Exit(1)``` | 2
+Error   | Recoverable error message                        | 3
+Warn    | Warning message                                  | 4
+Good    | Success message                                  | 5
+Info    | General information message                      | 6
+Debug   | Developer Debug information.                     | 7
+Print   | Always print unstyled text                       | n/a
+
 ## Examples
 
 ### Logger
