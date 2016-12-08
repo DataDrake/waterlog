@@ -25,7 +25,7 @@ import (
 
 func main() {
 	w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC)
-	w.SetLevel(level.DEBUG)
+	w.SetLevel(level.Debug)
 	w.Debugln("This is a DEBUG")
 	w.Errorln("This is an ERROR")
 	w.Fatalln("This is a FATAL")

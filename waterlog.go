@@ -31,7 +31,7 @@ type WaterLog struct {
 }
 
 func New(out io.Writer, prefix string, flag int) *WaterLog {
-	return &WaterLog{flag, level.FATAL, prefix, out}
+	return &WaterLog{flag, level.Fatal, prefix, out}
 }
 
 func (w *WaterLog) Flags() int {

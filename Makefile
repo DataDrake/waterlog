@@ -1,5 +1,7 @@
 .RECIPEPREFIX != ps
 
+include Makefile.waterlog
+
 GOCC     = go
 
 GOPATH   = $(shell pwd)/build
@@ -14,55 +16,54 @@ BINDIR   = $(PREFIX)/bin
 all: build
 
 build: setup
-    @printf "\e[34m[Start Build]\e[39m\n"
+    @$(call stage,BUILD)
     $(GOCC) install -v ./build/src/github.com/DataDrake/waterlog/...
-    @printf "\e[34m[End Build]\e[39m\n\n"
+    @$(call pass,BUILD)
 
 setup:
-    @printf "\e[34m[Start Setup]\e[39m\n"
-    @printf "Setting up GOPATH...\n"
+    @$(call stage,SETUP)
+    @$(call task,Setting up GOPATH)
     @mkdir -p $(GOPATH)
-    @printf "Setting up src/...\n"
+    @$(call task,Setting up src/)
     @mkdir -p $(GOSRC)
-    @printf "Setting up project root...\n"
+    @$(call task,Setting up project root)
     @mkdir -p $(PROJROOT)
-    @printf "Setting up symlinks...\n"
+    @$(call task,Setting up symlinks)
     @if [ ! -d $(PROJROOT)/waterlog ]; then ln -s $(shell pwd) $(PROJROOT)/waterlog; fi
-    @printf "\e[34m[End Setup]\e[39m\n\n"
+    @$(call pass,SETUP)
 
 validate: golint-setup
-    @printf "\e[34m[Start Format]\e[39m\n"
-    $(GOCC) fmt -x ./...
-    @printf "\e[34m[End Format]\e[39m\n\n"
-    @printf "\e[34m[Start Vet]\e[39m\n"
-    $(GOCC) vet -x ./...
-    @printf "\e[34m[End Vet]\e[39m\n\n"
-    @printf "\e[34m[Start Lint]\e[39m\n"
-    $(GOBIN)/golint -set_exit_status ./...
-    @printf "\e[34m[End Lint]\e[39m\n\n"
+    @$(call stage,FORMAT)
+    @$(GOCC) fmt -x ./...
+    @$(call pass,FORMAT)
+    @$(call stage,VET)
+    @$(GOCC) vet -x ./...
+    @$(call pass,VET)
+    @$(call stage,LINT)
+    @$(GOBIN)/golint -set_exit_status ./...
+    @$(call pass,LINT)
 
 golint-setup:
     @if [ ! -e $(GOBIN)/golint ]; then \
-        printf "Installing golint..."; \
+        printf "Installing golint...\n"; \
         $(GOCC) get -u github.com/golang/lint/golint; \
-        printf "DONE\n\n"; \
         rm -rf $(GOPATH)/src/golang.org $(GOPATH)/src/github.com/golang $(GOPATH)/pkg; \
     fi
 
 install:
-    @printf "\e[34m[Start Install]\e[39m\n"
+    @$(call stage,INSTALL)
     install -D -m 00755 $(GOBIN)/waterlog $(DESTDIR)$(BINDIR)/waterlog
-    @printf "\e[34m[End Install]\e[39m\n"
+    @$(call pass,INSTALL)
 
 uninstall:
-    @printf "\e[34m[Start Uninstall]\e[39m\n"
+    @$(call stage,UNINSTALL)
     rm -f $(DESTDIR)$(BINDIR)/waterlog
-    @printf "\e[34m[End Uninstall]\e[39m\n"
+    @$(call pass,UNINSTALL)
 
 clean:
-    @printf "\e[34m[Start Clean]\e[39m\n"
-    @printf "Removing symlinks...\n"
-    unlink $(PROJROOT)/waterlog
-    @printf "Removing build directory...\n"
-    rm -r build
-    @printf "\e[34m[End Clean]\e[39m\n\n"
+    @$(call stage,CLEAN)
+    @$(call task,Removing symlinks)
+    @unlink $(PROJROOT)/waterlog
+    @$(call task,Removing build directory)
+    @rm -r build
+    @$(call pass,CLEAN)

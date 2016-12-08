@@ -55,15 +55,15 @@ func (w *WaterLog) Errorln(v ...interface{}) {
 }
 
 func (w *WaterLog) Debug(v ...interface{}) {
-	w.eprint(format.DEBUG, v...)
+	w.eprint(format.Debug, v...)
 }
 
 func (w *WaterLog) Debugf(f string, v ...interface{}) {
-	w.eprintf(format.DEBUG, f, v...)
+	w.eprintf(format.Debug, f, v...)
 }
 
 func (w *WaterLog) Debugln(v ...interface{}) {
-	w.eprintln(format.DEBUG, v...)
+	w.eprintln(format.Debug, v...)
 }
 
 func (w *WaterLog) Fatal(v ...interface{}) {

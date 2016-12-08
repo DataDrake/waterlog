@@ -40,4 +40,4 @@ var Fatal = Style{level.Fatal, "FATAL", FatalFmt}
 var Good = Style{level.Good, "GOOD", GoodFmt}
 var Info = Style{level.Info, "INFO", InfoFmt}
 var Panic = Style{level.Panic, "PANIC", PanicFmt}
-var Warn = Style{level.Warm, "WARNING", WarnFmt}
+var Warn = Style{level.Warn, "WARNING", WarnFmt}
