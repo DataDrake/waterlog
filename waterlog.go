@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-// waterlog provides an extended and styled log.Logger functionality.
+// Package waterlog provides an extended and styled log.Logger functionality.
 package waterlog
 
 import (
