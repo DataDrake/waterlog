@@ -1,7 +1,7 @@
 # waterlog
 Go Logging that just works
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/DataDrake/waterlog)](https://goreportcard.com/report/github.com/DataDrake/waterlog) [![license](https://img.shields.io/github/license/DataDrake/waterlog.svg)]()
+[![Go Report Card](https://goreportcard.com/badge/github.com/DataDrake/waterlog)](https://goreportcard.com/report/github.com/DataDrake/waterlog) [![GoDoc](https://godoc.org/github.com/DataDrake/waterlog?status.svg)](https://godoc.org/github.com/DataDrake/waterlog) [![license](https://img.shields.io/github/license/DataDrake/waterlog.svg)]()
 
 ## Motivation
 Logging is terribly boring, but can be an important part of a project. 
