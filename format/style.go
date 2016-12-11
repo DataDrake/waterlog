@@ -16,49 +16,57 @@
 
 package format
 
-import "github.com/DataDrake/waterlog/level"
+import (
+	"fmt"
+	"github.com/DataDrake/waterlog/level"
+)
 
 // Style is a style definition used for prints
 type Style struct {
+	Color  string
 	Level  uint8
 	Msg    string
-	Format string
+	Symbol string
 }
 
 const (
-	// DebugFmt is the format string used by Debug prints
-	DebugFmt = "\033[30;48;5;099m ✚ \033[7m %s \033[27m %-7s \033[49;38;5;99m %v\033[0m"
-	// ErrorFmt is the format string used by Error prints
-	ErrorFmt = "\033[30;48;5;208m ✗ \033[7m %s \033[27m %-7s \033[49;38;5;208m %v\033[0m"
-	// FatalFmt is the format string used by Fatal prints
-	FatalFmt = "\033[30;48;5;160m 🕱 \033[7m %s \033[27m %-7s \033[49;38;5;160m %v\033[0m"
-	// GoodFmt is the format string used by Good prints
-	GoodFmt = "\033[30;48;5;040m 🗸 \033[7m %s \033[27m %-7s \033[49;38;5;040m %v\033[0m"
-	// InfoFmt is the format string used by Info prints
-	InfoFmt = "\033[30;48;5;004m ⮞ \033[7m %s \033[27m %-7s \033[49;38;5;004m %v\033[0m"
-	// PanicFmt is the format string used by Panic prints
-	PanicFmt = "\033[30;48;5;200m 😮 \033[7m %s \033[27m %-7s \033[49;38;5;200m %v\033[0m"
-	// WarnFmt is the format string used by Warn prints
-	WarnFmt = "\033[30;48;5;220m 🗲 \033[7m %s \033[27m %-7s \033[49;38;5;220m %v\033[0m"
+	fullFmt = "\033[30;48;5;%sm %s \033[7m %s \033[27m %-7s \033[49;38;5;%sm %v\033[0m"
+	minFmt  = "\033[30;48;5;%sm %s \033[49;38;5;%sm %v\033[0m"
 )
 
 // Debug style used for prints
-var Debug = Style{level.Debug, "DEBUG", DebugFmt}
+var Debug = Style{"099", level.Debug, "DEBUG", "✚"}
 
 // Error style used for prints
-var Error = Style{level.Error, "ERROR", ErrorFmt}
+var Error = Style{"208", level.Error, "ERROR", "✗"}
 
 // Fatal style used for prints
-var Fatal = Style{level.Fatal, "FATAL", FatalFmt}
+var Fatal = Style{"160", level.Fatal, "FATAL", "🕱"}
 
 // Good style used for prints
-var Good = Style{level.Good, "GOOD", GoodFmt}
+var Good = Style{"040", level.Good, "GOOD", "🗸"}
 
 // Info style used for prints
-var Info = Style{level.Info, "INFO", InfoFmt}
+var Info = Style{"004", level.Info, "INFO", "⮞"}
 
 // Panic style used for prints
-var Panic = Style{level.Panic, "PANIC", PanicFmt}
+var Panic = Style{"200", level.Panic, "PANIC", "😮"}
 
 // Warn style used for prints
-var Warn = Style{level.Warn, "WARNING", WarnFmt}
+var Warn = Style{"220", level.Warn, "WARNING", "🗲"}
+
+// Full prints a complete log message, with a timestep and label for message type
+func (s Style) Full(time string, v ...interface{}) string {
+	if len(v) <= 1 {
+		return fmt.Sprintf(fullFmt, s.Color, s.Symbol, time, s.Msg, s.Color, v[0])
+	}
+	return fmt.Sprintf(fullFmt, s.Color, s.Symbol, time, s.Msg, s.Color, v)
+}
+
+// Min prints a simplified log message, with only an icon for message type
+func (s Style) Min(v ...interface{}) string {
+	if len(v) <= 1 {
+		return fmt.Sprintf(minFmt, s.Color, s.Symbol, s.Color, v[0])
+	}
+	return fmt.Sprintf(minFmt, s.Color, s.Symbol, s.Color, v)
+}

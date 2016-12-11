@@ -24,22 +24,32 @@ import (
 
 func (w *WaterLog) eprint(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		v = append([]interface{}{w.Time(), s.Msg}, v...)
-		w.Printf(s.Format, v...)
+		if w.full {
+			w.Print(s.Full(w.Time(), v...))
+		} else {
+			w.Print(s.Min(v...))
+		}
 	}
 }
 
 func (w *WaterLog) eprintf(s format.Style, f string, v ...interface{}) {
+	msg := fmt.Sprintf(f, v...)
 	if s.Level <= w.level {
-		v = append([]interface{}{w.Time(), s.Msg}, fmt.Sprintf(f, v...))
-		w.Printf(s.Format, v...)
+		if w.full {
+			w.Print(s.Full(w.Time(), msg))
+		} else {
+			w.Print(s.Min(msg))
+		}
 	}
 }
 
 func (w *WaterLog) eprintln(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		v = append([]interface{}{w.Time(), s.Msg}, v...)
-		w.Printf(s.Format+"\n", v...)
+		if w.full {
+			w.Println(s.Full(w.Time(), v...))
+		} else {
+			w.Println(s.Min(v...))
+		}
 	}
 }
 

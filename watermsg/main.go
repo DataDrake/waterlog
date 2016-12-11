@@ -26,12 +26,12 @@ import (
 func main() {
 	w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC)
 	w.SetLevel(level.Debug)
+	w.ToggleStyle()
 	w.Debugln("This is a DEBUG")
 	w.Errorln("This is an ERROR")
 	w.Goodln("This is a GOOD")
 	w.Infoln("This is an INFO")
 	w.Println("This is a PRINT")
 	w.Warnln("This is a WARNING")
-	w.Panicln("This is a PANIC")
 	w.Fatalln("This is a FATAL")
 }

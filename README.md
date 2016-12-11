@@ -57,9 +57,13 @@ Print   | Always print unstyled text                       | n/a
 
 ## Examples
 
-### Logger
+### Full Logger
 
-![Go Example](/images/go.png)
+![Go Full Example](/images/go.png)
+
+### Min Logger
+
+![Go Min Example](/images/min.png)
 
 ### Makefile
 

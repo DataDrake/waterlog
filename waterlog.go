@@ -28,6 +28,7 @@ import (
 // WaterLog is a styled log.Logger
 type WaterLog struct {
 	flag   int
+	full   bool
 	level  uint8
 	mu     sync.Mutex
 	prefix string
@@ -36,7 +37,7 @@ type WaterLog struct {
 
 // New creates a WaterLog
 func New(out io.Writer, prefix string, flag int) *WaterLog {
-	return &WaterLog{flag, level.Fatal, sync.Mutex{}, prefix, out}
+	return &WaterLog{flag, true, level.Fatal, sync.Mutex{}, prefix, out}
 }
 
 // Flags returns the output flags
@@ -96,4 +97,9 @@ func (w *WaterLog) Time() string {
 		t = t.UTC()
 	}
 	return t.Format(layout)
+}
+
+// ToggleStyle switches between Full and Min printing styles
+func (w *WaterLog) ToggleStyle() {
+	w.full = !w.full
 }
