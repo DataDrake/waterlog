@@ -18,6 +18,7 @@
 package waterlog
 
 import (
+	"github.com/DataDrake/waterlog/format"
 	"github.com/DataDrake/waterlog/level"
 	"io"
 	"log"
@@ -28,7 +29,7 @@ import (
 // WaterLog is a styled log.Logger
 type WaterLog struct {
 	flag   int
-	full   bool
+	format uint8
 	level  uint8
 	mu     sync.Mutex
 	prefix string
@@ -37,7 +38,7 @@ type WaterLog struct {
 
 // New creates a WaterLog
 func New(out io.Writer, prefix string, flag int) *WaterLog {
-	return &WaterLog{flag, true, level.Fatal, sync.Mutex{}, prefix, out}
+	return &WaterLog{flag, format.Full, level.Fatal, sync.Mutex{}, prefix, out}
 }
 
 // Flags returns the output flags
@@ -99,7 +100,7 @@ func (w *WaterLog) Time() string {
 	return t.Format(layout)
 }
 
-// ToggleStyle switches between Full and Min printing styles
-func (w *WaterLog) ToggleStyle() {
-	w.full = !w.full
+// SetFormat changes the printing format
+func (w *WaterLog) SetFormat(format uint8) {
+	w.format = format
 }

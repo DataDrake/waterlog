@@ -24,10 +24,13 @@ import (
 
 func (w *WaterLog) eprint(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		if w.full {
-			w.Print(s.Full(w.Time(), v...))
-		} else {
+		switch w.format {
+		case format.Min:
 			w.Print(s.Min(v...))
+		case format.Un:
+			w.Print(s.Un(w.Time(), v...))
+		default:
+			w.Print(s.Full(w.Time(), v...))
 		}
 	}
 }
@@ -35,20 +38,26 @@ func (w *WaterLog) eprint(s format.Style, v ...interface{}) {
 func (w *WaterLog) eprintf(s format.Style, f string, v ...interface{}) {
 	msg := fmt.Sprintf(f, v...)
 	if s.Level <= w.level {
-		if w.full {
-			w.Print(s.Full(w.Time(), msg))
-		} else {
+		switch w.format {
+		case format.Min:
 			w.Print(s.Min(msg))
+		case format.Un:
+			w.Print(s.Un(w.Time(), msg))
+		default:
+			w.Print(s.Full(w.Time(), msg))
 		}
 	}
 }
 
 func (w *WaterLog) eprintln(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		if w.full {
-			w.Println(s.Full(w.Time(), v...))
-		} else {
+		switch w.format {
+		case format.Min:
 			w.Println(s.Min(v...))
+		case format.Un:
+			w.Println(s.Un(w.Time(), v...))
+		default:
+			w.Println(s.Full(w.Time(), v...))
 		}
 	}
 }

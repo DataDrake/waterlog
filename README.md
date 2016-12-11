@@ -57,13 +57,17 @@ Print   | Always print unstyled text                       | n/a
 
 ## Examples
 
-### Full Logger
+### format.Full Logger
 
-![Go Full Example](/images/go.png)
+![Go format.Full Example](/images/go.png)
 
-### Min Logger
+### format.Min Logger
 
-![Go Min Example](/images/min.png)
+![Go format.Min Example](/images/min.png)
+
+### format.Un Logger
+
+![Go format.Un Example](/images/un.png)
 
 ### Makefile
 

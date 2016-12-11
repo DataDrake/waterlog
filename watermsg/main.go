@@ -18,6 +18,7 @@ package main
 
 import (
 	"github.com/DataDrake/waterlog"
+	"github.com/DataDrake/waterlog/format"
 	"github.com/DataDrake/waterlog/level"
 	"log"
 	"os"
@@ -26,7 +27,7 @@ import (
 func main() {
 	w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC)
 	w.SetLevel(level.Debug)
-	w.ToggleStyle()
+	w.SetFormat(format.Un)
 	w.Debugln("This is a DEBUG")
 	w.Errorln("This is an ERROR")
 	w.Goodln("This is a GOOD")

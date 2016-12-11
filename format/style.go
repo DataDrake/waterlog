@@ -21,6 +21,15 @@ import (
 	"github.com/DataDrake/waterlog/level"
 )
 
+const (
+	// Full indicates a verbose printing style
+	Full = uint8(0)
+	// Min indicates a minimal printing style
+	Min = uint8(1)
+	// Un indicated a Full style without colors
+	Un = uint8(2)
+)
+
 // Style is a style definition used for prints
 type Style struct {
 	Color  string
@@ -32,6 +41,7 @@ type Style struct {
 const (
 	fullFmt = "\033[30;48;5;%sm %s \033[7m %s \033[27m %-7s \033[49;38;5;%sm %v\033[0m"
 	minFmt  = "\033[30;48;5;%sm %s \033[49;38;5;%sm %v\033[0m"
+	unFmt   = " %s  %s  %-7s  %v"
 )
 
 // Debug style used for prints
@@ -69,4 +79,12 @@ func (s Style) Min(v ...interface{}) string {
 		return fmt.Sprintf(minFmt, s.Color, s.Symbol, s.Color, v[0])
 	}
 	return fmt.Sprintf(minFmt, s.Color, s.Symbol, s.Color, v)
+}
+
+// Un prints a Full-style log message, without colors
+func (s Style) Un(time string, v ...interface{}) string {
+	if len(v) <= 1 {
+		return fmt.Sprintf(unFmt, s.Symbol, time, s.Msg, v[0])
+	}
+	return fmt.Sprintf(unFmt, s.Symbol, time, s.Msg, v)
 }
