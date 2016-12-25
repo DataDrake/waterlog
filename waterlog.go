@@ -22,6 +22,7 @@ import (
 	"github.com/DataDrake/waterlog/level"
 	"io"
 	"log"
+	"os"
 	"sync"
 	"time"
 )
@@ -39,6 +40,13 @@ type WaterLog struct {
 // New creates a WaterLog
 func New(out io.Writer, prefix string, flag int) *WaterLog {
 	return &WaterLog{flag, format.Full, level.Fatal, sync.Mutex{}, prefix, out}
+}
+
+var std = New(os.Stdout, "", log.Ldate|log.Ltime)
+
+// GetStd returns the shared standard logger for waterlog
+func GetStd() *WaterLog {
+	return std
 }
 
 // Flags returns the output flags
