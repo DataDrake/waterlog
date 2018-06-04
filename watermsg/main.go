@@ -1,5 +1,5 @@
 //
-// Copyright 2017 Bryan T. Meyers <bmeyers@datadrake.com>
+// Copyright 2017-2018 Bryan T. Meyers <bmeyers@datadrake.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import (
 func main() {
 	w := waterlog.New(os.Stdout, "", log.Ltime|log.Ldate|log.Lmicroseconds|log.LUTC)
 	w.SetLevel(level.Debug)
-	w.SetFormat(format.Un)
+	w.SetFormat(format.Full)
 	w.Debugln("This is a DEBUG")
 	w.Errorln("This is an ERROR")
 	w.Goodln("This is a GOOD")
