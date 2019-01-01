@@ -1,69 +1,73 @@
-.RECIPEPREFIX != ps
-
-include Makefile.waterlog
-
-GOCC     = go
-
-GOPATH   = $(shell pwd)/build
-GOBIN    = build/bin
-GOSRC    = build/src
-PROJROOT = $(GOSRC)/github.com/DataDrake
-
+PKGNAME  = waterlog
 DESTDIR ?=
 PREFIX  ?= /usr
 BINDIR   = $(PREFIX)/bin
 
+GOBIN       = _build/bin
+GOPROJROOT  = $(GOSRC)/$(PROJREPO)
+
+GOLDFLAGS   = -ldflags "-s -w"
+GOTAGS      = --tags "libsqlite3 linux"
+GOCC        = go
+GOFMT       = $(GOCC) fmt -x
+GOGET       = $(GOCC) get $(GOLDFLAGS)
+GOBUILD     = $(GOCC) build -v $(GOLDFLAGS) $(GOTAGS)
+GOTEST      = $(GOCC) test
+GOVET       = $(GOCC) vet
+GOINSTALL   = $(GOCC) install $(GOLDFLAGS)
+GOBUILDDEP  = GOPATH=`pwd`/_build $(GOINSTALL)
+GOCLEANDEP  = GOPATH=`pwd`/_build $(GOCC) clean -cache -modcache
+
+include Makefile.waterlog
+
+GOLINT    = $(GOBIN)/golint -set_exit_status
+
 all: build
 
-build: setup
-    @$(call stage,BUILD)
-    $(GOCC) install -v ./build/src/github.com/DataDrake/waterlog/...
-    @$(call pass,BUILD)
+build: setup-deps
+	@$(call stage,BUILD)
+	@$(GOBUILD)
+	@$(call pass,BUILD)
 
-setup:
-    @$(call stage,SETUP)
-    @$(call task,Setting up GOPATH)
-    @mkdir -p $(GOPATH)
-    @$(call task,Setting up src/)
-    @mkdir -p $(GOSRC)
-    @$(call task,Setting up project root)
-    @mkdir -p $(PROJROOT)
-    @$(call task,Setting up symlinks)
-    @if [ ! -d $(PROJROOT)/waterlog ]; then ln -s $(shell pwd) $(PROJROOT)/waterlog; fi
-    @$(call pass,SETUP)
+test: build
+	@$(call stage,TEST)
+	@$(GOTEST) ./...
+	@$(call pass,TEST)
 
-validate: golint-setup
-    @$(call stage,FORMAT)
-    @$(GOCC) fmt -x ./...
-    @$(call pass,FORMAT)
-    @$(call stage,VET)
-    @$(GOCC) vet -x ./...
-    @$(call pass,VET)
-    @$(call stage,LINT)
-    @$(GOBIN)/golint -set_exit_status ./...
-    @$(call pass,LINT)
+validate: setup-deps
+	@$(call stage,FORMAT)
+	@$(GOFMT) ./...
+	@$(call pass,FORMAT)
+	@$(call stage,VET)
+	@$(call task,Running 'go vet'...)
+	@$(GOVET) ./...
+	@$(call pass,VET)
+	@$(call stage,LINT)
+	@$(call task,Running 'golint'...)
+	@$(GOLINT) `go list ./... | grep -v vendor`
+	@$(call pass,LINT)
 
-golint-setup:
-    @if [ ! -e $(GOBIN)/golint ]; then \
-        printf "Installing golint...\n"; \
-        $(GOCC) get -u github.com/golang/lint/golint; \
-        rm -rf $(GOPATH)/src/golang.org $(GOPATH)/src/github.com/golang $(GOPATH)/pkg; \
-    fi
+setup-deps:
+	@$(call stage,DEPS)
+	@if [ -d build/src/honnef.co ]; then rm -rf build/src/honnef.co; fi
+	@if [ ! -e $(GOBIN)/golint ]; then \
+	    $(call task,Installing golint...); \
+	    $(GOBUILDDEP) github.com/golang/lint/golint; \
+        $(GOCLEANDEP) ./...; \
+	fi
 
 install:
-    @$(call stage,INSTALL)
-    install -D -m 00755 $(GOBIN)/waterlog $(DESTDIR)$(BINDIR)/waterlog
-    @$(call pass,INSTALL)
+	@$(call stage,INSTALL)
+	install -D -m 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
+	@$(call pass,INSTALL)
 
 uninstall:
-    @$(call stage,UNINSTALL)
-    rm -f $(DESTDIR)$(BINDIR)/waterlog
-    @$(call pass,UNINSTALL)
+	@$(call stage,UNINSTALL)
+	rm -f $(DESTDIR)$(BINDIR)/$(PKGNAME)
+	@$(call pass,UNINSTALL)
 
 clean:
-    @$(call stage,CLEAN)
-    @$(call task,Removing symlinks)
-    @unlink $(PROJROOT)/waterlog
-    @$(call task,Removing build directory)
-    @rm -r build
-    @$(call pass,CLEAN)
+	@$(call stage,CLEAN)
+	@$(call task,Removing _build directory...)
+	@rm -rf _build
+	@$(call pass,CLEAN)
