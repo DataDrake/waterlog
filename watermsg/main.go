@@ -24,14 +24,15 @@ import (
 )
 
 func main() {
-	log.SetFlags(log2.Ltime|log2.Ldate|log2.Lmicroseconds|log2.LUTC)
+	log.SetFlags(log2.Ltime | log2.Ldate | log2.LUTC)
 	log.SetLevel(level.Debug)
-	log.SetFormat(format.Full)
+	log.SetFormat(format.Partial)
 	log.Debugln("This is a DEBUG")
 	log.Errorln("This is an ERROR")
 	log.Goodln("This is a GOOD")
 	log.Infoln("This is an INFO")
 	log.Println("This is a PRINT")
 	log.Warnln("This is a WARNING")
-	log.Fatalln("This is a FATAL")
+	//log.Fatalln("This is a FATAL")
+	log.Panicln("This is a PANIC")
 }

@@ -25,6 +25,8 @@ import (
 func (w *WaterLog) eprint(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
 		switch w.format {
+		case format.Partial:
+			w.Print(s.Partial(w.Time(), v...))
 		case format.Min:
 			w.Print(s.Min(v...))
 		case format.Un:
@@ -39,6 +41,8 @@ func (w *WaterLog) eprintf(s format.Style, f string, v ...interface{}) {
 	msg := fmt.Sprintf(f, v...)
 	if s.Level <= w.level {
 		switch w.format {
+		case format.Partial:
+			w.Print(s.Partial(w.Time(), msg))
 		case format.Min:
 			w.Print(s.Min(msg))
 		case format.Un:
@@ -52,6 +56,8 @@ func (w *WaterLog) eprintf(s format.Style, f string, v ...interface{}) {
 func (w *WaterLog) eprintln(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
 		switch w.format {
+		case format.Partial:
+			w.Println(s.Partial(w.Time(), v...))
 		case format.Min:
 			w.Println(s.Min(v...))
 		case format.Un:
@@ -154,7 +160,7 @@ func (w *WaterLog) Fatalln(v ...interface{}) {
 
 // Fatal is a styled Print followed by os.Exit(1)
 func Fatal(v ...interface{}) {
-    std.Fatal(v...)
+	std.Fatal(v...)
 }
 
 // Fatalf is a styled Printf followed by os.Exit(1)
@@ -265,19 +271,18 @@ func (w *WaterLog) Panicln(v ...interface{}) {
 
 // Panic is a styled Print followed by a call to panic("")
 func Panic(v ...interface{}) {
-    std.Panic(v...)
+	std.Panic(v...)
 }
 
 // Panicf is a styled Printf followed by a call to panic("")
 func Panicf(f string, v ...interface{}) {
-    std.Panicf(f, v...)
+	std.Panicf(f, v...)
 }
 
 // Panicln is a styled Println followed by a call to panic("")
 func Panicln(v ...interface{}) {
-    std.Panicln(v...)
+	std.Panicln(v...)
 }
-
 
 /*************************************************/
 /*                PRINT FUNCTIONS                */
@@ -306,17 +311,17 @@ func (w *WaterLog) Println(v ...interface{}) {
 
 // Print is a mutex protect fmt.Fprint
 func Print(v ...interface{}) {
-    std.Print(v...)
+	std.Print(v...)
 }
 
 // Printf is a mutex protect fmt.Fprintf
 func Printf(f string, v ...interface{}) {
-    std.Printf(f, v...)
+	std.Printf(f, v...)
 }
 
 // Println is a mutex protect fmt.Fprintln
 func Println(v ...interface{}) {
-    std.Println(v...)
+	std.Println(v...)
 }
 
 /*************************************************/

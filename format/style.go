@@ -24,10 +24,12 @@ import (
 const (
 	// Full indicates a verbose printing style
 	Full = uint8(0)
+	// Partial indicates a simplified printing style
+	Partial = uint8(1)
 	// Min indicates a minimal printing style
-	Min = uint8(1)
+	Min = uint8(2)
 	// Un indicated a Full style without colors
-	Un = uint8(2)
+	Un = uint8(3)
 )
 
 // Style is a style definition used for prints
@@ -39,9 +41,10 @@ type Style struct {
 }
 
 const (
-	fullFmt = "\033[30;48;5;%sm %s \033[7m %s \033[27m %-7s \033[49;38;5;%sm %v\033[0m"
-	minFmt  = "\033[30;48;5;%sm %s \033[49;38;5;%sm %v\033[0m"
-	unFmt   = " %s  %s  %-7s  %v"
+	fullFmt    = "\033[30;48;5;%sm %s \033[7m %s \033[27m %-7s \033[49;38;5;%sm %v\033[0m"
+	partialFmt = "\033[30;48;5;%sm %s %s \033[49;38;5;%sm %v\033[0m"
+	minFmt     = "\033[30;48;5;%sm %s \033[49;38;5;%sm %v\033[0m"
+	unFmt      = " %s  %s  %-7s  %v"
 )
 
 // Debug style used for prints
@@ -57,10 +60,10 @@ var Fatal = Style{"160", level.Fatal, "FATAL", "🕱"}
 var Good = Style{"040", level.Good, "GOOD", "🗸"}
 
 // Info style used for prints
-var Info = Style{"004", level.Info, "INFO", "⮞"}
+var Info = Style{"045", level.Info, "INFO", "⮞"}
 
 // Panic style used for prints
-var Panic = Style{"200", level.Panic, "PANIC", "😮"}
+var Panic = Style{"200", level.Panic, "PANIC", "☢"}
 
 // Warn style used for prints
 var Warn = Style{"220", level.Warn, "WARNING", "🗲"}
@@ -71,6 +74,14 @@ func (s Style) Full(time string, v ...interface{}) string {
 		return fmt.Sprintf(fullFmt, s.Color, s.Symbol, time, s.Msg, s.Color, v[0])
 	}
 	return fmt.Sprintf(fullFmt, s.Color, s.Symbol, time, s.Msg, s.Color, v)
+}
+
+// Partial prints a partial log message, with a timestep and icon for message type
+func (s Style) Partial(time string, v ...interface{}) string {
+	if len(v) <= 1 {
+		return fmt.Sprintf(partialFmt, s.Color, time, s.Symbol, s.Color, v[0])
+	}
+	return fmt.Sprintf(partialFmt, s.Color, time, s.Symbol, s.Color, v)
 }
 
 // Min prints a simplified log message, with only an icon for message type
