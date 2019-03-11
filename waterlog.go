@@ -44,14 +44,14 @@ func New(out io.Writer, prefix string, flag int) *WaterLog {
 
 var std = New(os.Stdout, "", log.Ldate|log.Ltime)
 
-// GetStd returns the shared standard logger for waterlog
-func GetStd() *WaterLog {
-	return std
-}
-
 // Flags returns the output flags
 func (w *WaterLog) Flags() int {
 	return w.flag
+}
+
+// Flags returns the output flags for std
+func Flags() int {
+	return std.Flags()
 }
 
 // SetFlags replaces the output flags
@@ -59,9 +59,19 @@ func (w *WaterLog) SetFlags(flag int) {
 	w.flag = flag
 }
 
+// SetFlags replaces the output flags
+func SetFlags(flag int) {
+	std.SetFlags(flag)
+}
+
 // Level returns the logging level
 func (w *WaterLog) Level() uint8 {
 	return w.level
+}
+
+// Level returns the logging level
+func Level() uint8 {
+	return std.Level()
 }
 
 // SetLevel changes the logging level
@@ -69,19 +79,19 @@ func (w *WaterLog) SetLevel(level uint8) {
 	w.level = level
 }
 
+// SetLevel changes the logging level
+func SetLevel(level uint8) {
+	std.SetLevel(level)
+}
+
 // SetOutput replaces the internal io.Writer
 func (w *WaterLog) SetOutput(output io.Writer) {
 	w.output = output
 }
 
-// Prefix returns the output prefix (UNUSED)
-func (w *WaterLog) Prefix() string {
-	return w.prefix
-}
-
-// SetPrefix replaces the output prefix (UNUSED)
-func (w *WaterLog) SetPrefix(prefix string) {
-	w.prefix = prefix
+// SetOutput replaces the internal io.Writer
+func SetOutput(output io.Writer) {
+	std.SetOutput(output)
 }
 
 // Time returns a formatted Timestamp for logging
@@ -111,4 +121,9 @@ func (w *WaterLog) Time() string {
 // SetFormat changes the printing format
 func (w *WaterLog) SetFormat(format uint8) {
 	w.format = format
+}
+
+// SetFormat changes the printing format
+func SetFormat(format uint8) {
+	std.SetFormat(format)
 }
