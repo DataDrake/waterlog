@@ -1,30 +1,26 @@
-PKGNAME  = waterlog
-DESTDIR ?=
-PREFIX  ?= /usr
-BINDIR   = $(PREFIX)/bin
+PKGNAME    = waterlog
+DESTDIR   ?=
+PREFIX    ?= /usr
+BINDIR     = $(PREFIX)/bin
 
-GOBIN       = _build/bin
 GOPROJROOT  = $(GOSRC)/$(PROJREPO)
 
 GOLDFLAGS   = -ldflags "-s -w"
-GOTAGS      = --tags "libsqlite3 linux"
 GOCC        = go
 GOFMT       = $(GOCC) fmt -x
 GOGET       = $(GOCC) get $(GOLDFLAGS)
-GOBUILD     = $(GOCC) build -v $(GOLDFLAGS) $(GOTAGS) ./...
+GOBUILD     = $(GOCC) build -v $(GOLDFLAGS) $(GOTAGS)
 GOTEST      = $(GOCC) test
 GOVET       = $(GOCC) vet
 GOINSTALL   = $(GOCC) install $(GOLDFLAGS)
-GOBUILDDEP  = GOPATH=`pwd`/_build $(GOINSTALL)
-GOCLEANDEP  = GOPATH=`pwd`/_build $(GOCC) clean -cache -modcache
 
 include Makefile.waterlog
 
-GOLINT    = $(GOBIN)/golint -set_exit_status
+GOLINT = golint -set_exit_status
 
 all: build
 
-build: setup-deps
+build:
 	@$(call stage,BUILD)
 	@$(GOBUILD)
 	@$(call pass,BUILD)
@@ -34,7 +30,7 @@ test: build
 	@$(GOTEST) ./...
 	@$(call pass,TEST)
 
-validate: setup-deps
+validate:
 	@$(call stage,FORMAT)
 	@$(GOFMT) ./...
 	@$(call pass,FORMAT)
@@ -44,30 +40,22 @@ validate: setup-deps
 	@$(call pass,VET)
 	@$(call stage,LINT)
 	@$(call task,Running 'golint'...)
-	@$(GOLINT) `go list ./... | grep -v vendor`
+	@$(GOLINT) ./...
 	@$(call pass,LINT)
-
-setup-deps:
-	@$(call stage,DEPS)
-	@if [ -d build/src/honnef.co ]; then rm -rf build/src/honnef.co; fi
-	@if [ ! -e $(GOBIN)/golint ]; then \
-	    $(call task,Installing golint...); \
-	    $(GOBUILDDEP) github.com/golang/lint/golint; \
-        $(GOCLEANDEP) ./...; \
-	fi
 
 install:
 	@$(call stage,INSTALL)
-	install -D -m 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
+	install -Dm 00755 $(PKGNAME) $(DESTDIR)$(BINDIR)/$(PKGNAME)
 	@$(call pass,INSTALL)
 
 uninstall:
 	@$(call stage,UNINSTALL)
 	rm -f $(DESTDIR)$(BINDIR)/$(PKGNAME)
+	rm -rf $(DESTDIR)$(DATADIR)
 	@$(call pass,UNINSTALL)
 
 clean:
 	@$(call stage,CLEAN)
-	@$(call task,Removing _build directory...)
-	@rm -rf _build
+	@$(call task,Removing executable...)
+	@rm $(PKGNAME)
 	@$(call pass,CLEAN)

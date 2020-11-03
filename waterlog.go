@@ -1,5 +1,5 @@
 //
-// Copyright 2017-2018 Bryan T. Meyers <bmeyers@datadrake.com>
+// Copyright 2017-2020 Bryan T. Meyers <root@datadrake.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import (
 // WaterLog is a styled log.Logger
 type WaterLog struct {
 	flag   int
-	format uint8
+	format format.Func
 	level  uint8
 	mu     sync.Mutex
 	prefix string
@@ -119,11 +119,11 @@ func (w *WaterLog) Time() string {
 }
 
 // SetFormat changes the printing format
-func (w *WaterLog) SetFormat(format uint8) {
+func (w *WaterLog) SetFormat(format format.Func) {
 	w.format = format
 }
 
 // SetFormat changes the printing format
-func SetFormat(format uint8) {
+func SetFormat(format format.Func) {
 	std.SetFormat(format)
 }

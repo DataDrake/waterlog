@@ -1,5 +1,5 @@
 //
-// Copyright 2017-2018 Bryan T. Meyers <bmeyers@datadrake.com>
+// Copyright 2017-2020 Bryan T. Meyers <root@datadrake.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,47 +24,20 @@ import (
 
 func (w *WaterLog) eprint(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		switch w.format {
-		case format.Partial:
-			w.Print(s.Partial(w.Time(), v...))
-		case format.Min:
-			w.Print(s.Min(v...))
-		case format.Un:
-			w.Print(s.Un(w.Time(), v...))
-		default:
-			w.Print(s.Full(w.Time(), v...))
-		}
+		w.Print(w.format(s, w.Time(), v...))
 	}
 }
 
 func (w *WaterLog) eprintf(s format.Style, f string, v ...interface{}) {
-	msg := fmt.Sprintf(f, v...)
 	if s.Level <= w.level {
-		switch w.format {
-		case format.Partial:
-			w.Print(s.Partial(w.Time(), msg))
-		case format.Min:
-			w.Print(s.Min(msg))
-		case format.Un:
-			w.Print(s.Un(w.Time(), msg))
-		default:
-			w.Print(s.Full(w.Time(), msg))
-		}
+		msg := fmt.Sprintf(f, v...)
+		w.Print(w.format(s, w.Time(), msg))
 	}
 }
 
 func (w *WaterLog) eprintln(s format.Style, v ...interface{}) {
 	if s.Level <= w.level {
-		switch w.format {
-		case format.Partial:
-			w.Println(s.Partial(w.Time(), v...))
-		case format.Min:
-			w.Println(s.Min(v...))
-		case format.Un:
-			w.Println(s.Un(w.Time(), v...))
-		default:
-			w.Println(s.Full(w.Time(), v...))
-		}
+		w.Println(w.format(s, w.Time(), v...))
 	}
 }
 
