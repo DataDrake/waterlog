@@ -75,7 +75,7 @@ Print   | Always print unstyled text                       | n/a
 
 ## License
 
-Copyright 2017-2020 Bryan T. Meyers <root@datadrake.com>
+Copyright 2017-2021 Bryan T. Meyers <root@datadrake.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
