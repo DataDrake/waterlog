@@ -59,19 +59,19 @@ Print   | Always print unstyled text                       | n/a
 
 ### format.Full Logger
 
-![Go format.Full Example](/images/go.png)
+![Go format.Full Example](/images/go.png "Full")
 
 ### format.Min Logger
 
-![Go format.Min Example](/images/min.png)
+![Go format.Min Example](/images/min.png "Min")
 
 ### format.Un Logger
 
-![Go format.Un Example](/images/un.png)
+![Go format.Un Example](/images/un.png "Unformatted")
 
 ### Makefile
 
-![Makefile Example](/images/makefile.png)
+![Makefile Example](/images/makefile.png "Makefile")
 
 ## License
 
