@@ -32,20 +32,28 @@ type Func func(s Style, time string, v ...interface{}) string
 
 // Full prints a complete log message, with a timestep and label for message type
 func Full(s Style, time string, v ...interface{}) string {
-	return fmt.Sprintf(fullFmt, s.Color, s.Symbol, time, s.Msg, s.Color, v)
+	args := []interface{}{s.Color, s.Symbol, time, s.Msg, s.Color}
+	args = append(args, v...)
+	return fmt.Sprintf(fullFmt, args...)
 }
 
 // Partial prints a partial log message, with a timestep and icon for message type
 func Partial(s Style, time string, v ...interface{}) string {
-	return fmt.Sprintf(partialFmt, s.Color, time, s.Symbol, s.Color, v)
+	args := []interface{}{s.Color, time, s.Symbol, s.Color}
+	args = append(args, v...)
+	return fmt.Sprintf(partialFmt, args...)
 }
 
 // Min prints a simplified log message, with only an icon for message type
 func Min(s Style, time string, v ...interface{}) string {
-	return fmt.Sprintf(minFmt, s.Color, s.Symbol, s.Color, v)
+	args := []interface{}{s.Color, s.Symbol, s.Color}
+	args = append(args, v...)
+	return fmt.Sprintf(minFmt, args...)
 }
 
 // Un prints a Full-style log message, without colors
 func Un(s Style, time string, v ...interface{}) string {
-	return fmt.Sprintf(unFmt, s.Symbol, time, s.Msg, v)
+	args := []interface{}{s.Symbol, time, s.Msg}
+	args = append(args, v...)
+	return fmt.Sprintf(unFmt, args...)
 }
