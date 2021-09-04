@@ -18,13 +18,11 @@ package format
 
 import (
 	"fmt"
+	"github.com/DataDrake/flair"
 )
 
 const (
-	fullFmt    = "\033[30;48;5;%sm %s \033[7m %s \033[27m %-7s \033[49;38;5;%sm %v\033[0m"
-	partialFmt = "\033[30;48;5;%sm %s %s \033[49;38;5;%sm %v\033[0m"
-	minFmt     = "\033[30;48;5;%sm %s \033[49;38;5;%sm %v\033[0m"
-	unFmt      = " %s  %s  %-7s  %v"
+	unFmt = " %s  %s  %-7s  %v"
 )
 
 // Func defines a format function to use for printing
@@ -32,23 +30,26 @@ type Func func(s Style, time string, v ...interface{}) string
 
 // Full prints a complete log message, with a timestep and label for message type
 func Full(s Style, time string, v ...interface{}) string {
-	args := []interface{}{s.Color, s.Symbol, time, s.Msg, s.Color}
+	full := s.BG() + " %s " + flair.Reverse(" %s ") + "  %-8s " + flair.DefaultBG + s.FGFunc()(" %v")
+	args := []interface{}{s.Symbol, time, s.Msg}
 	args = append(args, v...)
-	return fmt.Sprintf(fullFmt, args...)
+	return fmt.Sprintf(full, args...)
 }
 
 // Partial prints a partial log message, with a timestep and icon for message type
 func Partial(s Style, time string, v ...interface{}) string {
-	args := []interface{}{s.Color, time, s.Symbol, s.Color}
+	partial := s.BG() + " %s %-8s " + flair.Reset + " %v"
+	args := []interface{}{s.Symbol, s.Msg}
 	args = append(args, v...)
-	return fmt.Sprintf(partialFmt, args...)
+	return fmt.Sprintf(partial, args...)
 }
 
 // Min prints a simplified log message, with only an icon for message type
 func Min(s Style, time string, v ...interface{}) string {
-	args := []interface{}{s.Color, s.Symbol, s.Color}
+	min := s.BG() + " %s " + flair.DefaultBG + s.FGFunc()(" %v")
+	args := []interface{}{s.Symbol}
 	args = append(args, v...)
-	return fmt.Sprintf(minFmt, args...)
+	return fmt.Sprintf(min, args...)
 }
 
 // Un prints a Full-style log message, without colors
